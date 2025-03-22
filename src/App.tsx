@@ -1,5 +1,9 @@
 import { useState } from "react";
 import { Button } from "./components/ui/button";
+import { Input } from "./components/ui/input";
+import { Checkbox } from "./components/ui/checkbox";
+import { Label } from "./components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./components/ui/select";
 
 export default function App(){
   const [min, setMin] = useState<number>(1);
@@ -41,69 +45,68 @@ export default function App(){
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-gray-100 p-4">
-      <h1 className="text-2xl font-bold mb-4">隨機數選取器</h1>
-      <div className="flex flex-col gap-2 bg-white p-4 rounded shadow-md w-80">
-        <label>
+    <div className="dark flex flex-col items-center min-h-screen bg-background text-foreground p-4">
+      <h1 className="text-2xl font-bold mb-4 ">隨機數選取器</h1>
+      <div className="flex flex-col gap-2 bg-card text-card-foreground p-4 rounded shadow-md w-80">
+        <Label className="flex-col items-start gap-2 p-2">
           最小值:
-          <input
+          <Input
             type="number"
             value={min}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setMin(Number(e.target.value))}
-            className="border rounded p-1 w-full"
           />
-        </label>
-        <label>
+        </Label>
+        <Label className="flex-col items-start gap-2 p-2">
           最大值:
-          <input
+          <Input
             type="number"
             value={max}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setMax(Number(e.target.value))}
-            className="border rounded p-1 w-full"
           />
-        </label>
-        <label>
+        </Label>
+        <Label className="flex-col items-start gap-2 p-2">
           抽選數量:
-          <input
+          <Input
             type="number"
             value={count}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setCount(Number(e.target.value))}
-            className="border rounded p-1 w-full"
           />
-        </label>
-        <label className="flex items-center gap-2">
-          <input
-            type="checkbox"
+        </Label>
+        <Label className="flex items-center gap-2 p-2">
+          <Checkbox
             checked={allowDuplicates}
-            onChange={() => setAllowDuplicates(!allowDuplicates)}
+            onCheckedChange={() => setAllowDuplicates(!allowDuplicates)}
           />
           允許重複
-        </label>
-        <label>
+        </Label>
+        <Label>
           排序:
-          <select
+          <Select
             value={sortOrder}
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-              setSortOrder(e.target.value as "none" | "asc" | "desc")}
-            className="border rounded p-1 w-full"
+            onValueChange={(value: string) => setSortOrder(value as "none" | "asc" | "desc")}
+            // className="border rounded p-1 w-full"
           >
-            <option value="none">不排序</option>
-            <option value="asc">升序</option>
-            <option value="desc">降序</option>
-          </select>
-        </label>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="sorted?"  />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="none">不排序</SelectItem>
+              <SelectItem value="asc">升序</SelectItem>
+              <SelectItem value="desc">降序</SelectItem>
+            </SelectContent>
+          </Select>
+        </Label>
         <Button
           onClick={generateRandomNumbers}
-          className="bg-blue-500 text-white py-2 rounded mt-2 hover:bg-blue-700"
         >
           生成隨機數
         </Button>
       </div>
       {result.length > 0 && (
-        <div className="mt-4 p-4 bg-white shadow-md rounded">
+        <div className="mt-4 p-4 bg-card text-card-foreground shadow-md rounded">
           <h2 className="text-lg font-bold">結果:</h2>
           <p className="text-xl font-mono">{result.join(", ")}</p>
         </div>
